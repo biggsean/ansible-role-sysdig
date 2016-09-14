@@ -1,0 +1,47 @@
+---
+# tasks file for sysdig
+##
+# epel is needed for dkms
+##
+- name: ensure the epel is installed
+  yum:
+    name: epel-release
+    state: present
+  tags:
+    - sysdig
+
+##
+# Note here we install both the latest kernel-devel and the one associated with
+# the running kernel.  This way sysdig will persist after a reboot in the case
+# where a new kernel has been staged.
+##
+- name: ensure supporting packages are installed
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - dkms
+    - kernel-devel
+    - kernel-devel-{{ ansible_kernel }}
+  tags:
+    - sysdig
+
+- name: ensure Draios repo is configured
+  yum_repository:
+    name: Draios
+    state: present
+    description: Draios repository
+    baseurl: http://download.draios.com/stable/rpm/$basearch
+    enabled: yes
+    gpgcheck: yes
+    gpgkey: https://s3.amazonaws.com/download.draios.com/DRAIOS-GPG-KEY.public
+  tags:
+    - sysdig
+
+- name: ensure sysdig is installed
+  yum:
+    name: sysdig
+    state: present
+  tags:
+    - sysdig
+
