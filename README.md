@@ -1,9 +1,8 @@
 Ansible Role:  sysdig
 =========
-[![Build Status](https://travis-ci.org/biggsean/ansible-role-sysdig.svg?branch=master)](https://travis-ci.org/biggsean/ansible-role-sysdig)
-
 Simple role to install sysdig.
 
+Note:  We cannot test this one in travis since it pulls kernel-devel packages based on the kernel version.
 Requirements
 ------------
 
